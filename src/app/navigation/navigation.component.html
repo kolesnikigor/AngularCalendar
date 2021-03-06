@@ -1,0 +1,7 @@
+<div class='calendarBar'>
+  <button (click)="nextMonth()" class='calendarBar__nav calendarBar__nav_prev'></button>
+  <span class='calendarBar__current'>
+				{{date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}}
+			</span>
+  <button (click)="prevMonth()" class='calendarBar__nav calendarBar__nav_next'></button>
+</div>
