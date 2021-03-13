@@ -1,4 +1,13 @@
 <div class="container">
-  <app-navigation></app-navigation>
-  <app-table></app-table>
+  <!-- <app-navigation></app-navigation> -->
+  <!-- <app-table></app-table> -->
+  <app-modal
+    [teams]="teamsDepartments.teams"
+    [startDayVacation]="startDayVacation"
+    [endDayVacation]="endDayVacation"
+    (someEvent)="checkState()"
+    (startDateVacationInput)="handleStartDayVacation($event)"
+    (endDateVacationInput)="handleEndDayVacation($event)"
+    (showData)="showData()"
+  ></app-modal>
 </div>
