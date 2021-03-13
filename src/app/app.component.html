@@ -1,4 +1,4 @@
 <div class="container">
-  <app-navigation></app-navigation>
-  <app-table></app-table>
+  <app-navigation [date]="date" (newDate)="changeDate($event)"></app-navigation>
+  <app-table [date]="date" [allDays]="getDaysOfActivePeriod()"></app-table>
 </div>
