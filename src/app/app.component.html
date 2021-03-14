@@ -5,12 +5,12 @@
     <div class='lds-dual-ring'></div>
   </div>
   <app-modal *ngIf="isModalActive"
-    [teams]="teamsDepartments.teams"
+    [teams]="teams.teams"
     [startDayVacation]="startDayVacation"
     [endDayVacation]="endDayVacation"
-    (someEvent)="checkState()"
     (startDateVacationInput)="handleStartDayVacation($event)"
     (endDateVacationInput)="handleEndDayVacation($event)"
+             (typeVacation)="handleTypeVacation($event)"
     (modalToggle)="modalToggle()"
   ></app-modal>
 </div>

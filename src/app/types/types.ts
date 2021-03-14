@@ -20,6 +20,11 @@ export interface IVacation {
   type: string;
 }
 
+export interface IVacationsType {
+  type: string;
+  description: string;
+}
+
 export interface IAllDays {
   dayName: string;
   date: number;

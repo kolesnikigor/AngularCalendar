@@ -1,27 +1,24 @@
-import {Component, OnInit} from '@angular/core';
-import teamsData from './api/teamsData';
-import { ITeams } from './interfaces/interfaces';
-import { convertDateToShow } from './utils/utils';
+import {Component, OnInit, OnChanges} from '@angular/core';
 import {IAllDays, ICalendar} from './types/types';
 import {PutTeamsService} from './services/put-teams.service';
 
 
 @Component({
-  selector: 'app-root', 
+  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnChanges {
   constructor(private putTeamsService: PutTeamsService) {
   }
 
-  public date: Date = new Date();
+  date: Date = new Date();
   teams: ICalendar;
   isLoading: boolean;
-  isModalActive: boolean = false
-  teamsDepartments: ITeams = teamsData
-  startDayVacation: string
-  endDayVacation: string
+  isModalActive = false;
+  startDayVacation: string;
+  endDayVacation: string;
+  typeVacation: string;
 
   getDaysOfActivePeriod(): IAllDays[] {
     const year = this.date.getFullYear();
@@ -48,22 +45,11 @@ export class AppComponent implements OnInit {
     });
   }
 
+  ngOnChanges(SimpleChanges): void {
+  }
+
   ngOnInit(): void {
     this.getTeams();
-    // this.startDayVacation = convertDateToShow(
-    //   new Date().toLocaleDateString('en-Us', {
-    //     year: 'numeric',
-    //     month: '2-digit',
-    //     day: '2-digit',
-    //   })
-    // )
-    // this.endDayVacation = convertDateToShow(
-    //   new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleDateString('en-Us', {
-    //     year: 'numeric',
-    //     month: '2-digit',
-    //     day: '2-digit'
-    //   })
-    // )
   }
 
   modalToggle(): void {
@@ -74,15 +60,15 @@ export class AppComponent implements OnInit {
     this.date = newDate;
   }
 
-  checkState(): void {
-    console.log("app-component")
+  handleStartDayVacation(date: string): void {
+    this.startDayVacation = date;
   }
 
-  handleStartDayVacation(date: string) {
-    this.startDayVacation = date
+  handleEndDayVacation(date: string): void {
+    this.endDayVacation = date;
   }
 
-  handleEndDayVacation(date: string) {
-    this.endDayVacation = date
+  handleTypeVacation(data: string): void {
+    this.typeVacation = data;
   }
 }

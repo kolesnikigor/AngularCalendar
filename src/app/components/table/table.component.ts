@@ -13,7 +13,7 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() allDays: IAllDays[];
   @Input() teams: ICalendar;
   @Input() isModalActive: boolean;
-  @Output() modalToggle = new EventEmitter()
+  @Output() modalToggle = new EventEmitter();
 
   iconPlusUrl = '../../../assets/images/plus.svg';
   teamIcon = '../../../assets/images/team.svg';
@@ -48,9 +48,9 @@ export class TableComponent implements OnInit, OnChanges {
     this.sumVacationByDay = [];
     this.createEmptyArraySumVacationByDay();
   }
-  
+
   toggleModal(): void {
-    this.modalToggle.emit()
+    this.modalToggle.emit();
   }
 
   ngOnInit(): void {
