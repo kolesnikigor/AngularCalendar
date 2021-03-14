@@ -12,6 +12,14 @@ export function checkVacationsDate(vacations, date): boolean {
   return result;
 }
 
+export function checkVacationsType(vacations): boolean {
+  let result = false;
+  vacations.forEach((item) => {
+    item.type === 'Paid' ? result = true : result = false;
+  });
+  return result;
+}
+
 export function counterSumVacation(vacations, date): number {
   let days = 0;
   const month = new Date(date).getMonth();
