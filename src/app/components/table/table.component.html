@@ -1,0 +1,90 @@
+<table *ngIf="isLoading" class='calendarTable'>
+
+  <thead>
+  <tr>
+    <td class='calendarTable__addVocation'>
+      <button (click)='modalToggle()' class='button button_a'>
+        <img [src]='iconPlusUrl' alt='#'/>
+        <span>Add Vacation</span>
+      </button>
+    </td>
+    <td *ngFor="let day of allDays" [ngClass]='{calendarTable__dayOff: day.isDayOff === true}'>
+      <span>{{day.dayName}}</span>
+      <span>{{day.date}}</span>
+    </td>
+    <td class="calendarTable__dayOff">Sum</td>
+  </tr>
+  </thead>
+
+  <tbody>
+  <ng-container *ngFor="let team of teams.teams; index as ind">
+    <tr class='calendarTable__team-header color{{ind}}' [ngClass]="{calendarTable__ident: isTeamsMembersShown[ind]}">
+      <td (click)="toggleHandler(ind)">
+        <div class='calendarTable__team-title' [ngClass]="{borderBottom: isTeamsMembersShown[ind], borderTop: ind !== 0}">
+          <span class='calendarTable__team-name'>{{team.name}}</span>
+          <span class='calendarTable__team-count'>
+            <img [src]='teamIcon' alt="#"/>
+            <span>{{team.members.length}}</span>
+          </span>
+          <span class='calendarTable__percentage'>{{team.percentageOfAbsent[date.getMonth()]}}%</span>
+          <button class='calendarTable__team-toggle'>
+            <img [src]='toggleIcon' alt="#"
+                 [ngStyle]="isTeamsMembersShown ? {'transform': 'none'} : {'transform': 'rotate(180deg)'}"/>
+          </button>
+        </div>
+      </td>
+      <td *ngFor="let day of allDays" [ngClass]='{calendarTable__dayOff: day.isDayOff === true}'>
+        <div [ngClass]="{borderBottom: isTeamsMembersShown[ind],borderTop: ind !== 0}"></div>
+      </td>
+      <td class="calendarTable__total">
+        <div [ngClass]="{borderBottom: isTeamsMembersShown[ind], borderTop: ind !== 0}"></div>
+      </td>
+    </tr>
+    <ng-container *ngIf="!isTeamsMembersShown[ind]">
+      <tr *ngFor="let member of team.members; index as i" class="color{{ind}}"
+          [ngClass]="{calendarTable__ident: i === (team.members.length - 1)}">
+        <td>
+          <div class='calendarTable__team-title' [ngClass]="{borderBottom: i === (team.members.length - 1)}">{{member.name}}</div>
+        </td>
+        <td *ngFor="let day of allDays" [ngClass]='{calendarTable__dayOff: day.isDayOff === true }'>
+          <div [ngClass]="{borderBottom: i === (team.members.length - 1)}">
+            <div class="calendarTable__vacations" *ngIf="checkVacationsDate(member.vacations, day.fullDate)">Pd</div>
+          </div>
+        </td>
+        <td class="calendarTable__total text-center">
+          <div [ngClass]="{borderBottom: i === (team.members.length - 1)}">
+            <span>{{counterSumVacation(member.vacations, date)}}</span>
+          </div>
+        </td>
+      </tr>
+    </ng-container>
+  </ng-container>
+  </tbody>
+
+  <tfoot>
+    <tr class="last-row">
+      <td class="calendarTable__team-title calendarTable__total">
+        Day-Person Stats
+      </td>
+      <td *ngFor="let day of allDays" [ngClass]='{calendarTable__dayOff: day.isDayOff === true }'
+          class="calendarTable__total">
+        <!--    <div class="calendarTable__vacations" *ngIf="checkVacationsDate(member.vacations, day.fullDate)">Pd</div>-->
+      </td>
+      <td class="calendarTable__total"></td>
+    </tr>
+  </tfoot>
+</table>
+
+<div *ngIf="isLoading" class="summary">
+  <h4 class="summary__title">{{date | date: 'MMMM'}} teams Summary</h4>
+  <div class="summary__month-info">
+    <span class="summary__item-title">On vacation</span>
+    <img [src]='teamIcon' alt="#"/>
+    <span class="summary__vacations-people">15</span>
+    <span class="summary__percentage">12%</span>
+  </div>
+</div>
+
+<div *ngIf="!isLoading" class='loading__wrapper'>
+  <div class='lds-dual-ring'></div>
+</div>
