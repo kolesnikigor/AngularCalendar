@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import teamsData from './api/teamsData';
 import { ITeams } from './interfaces/interfaces';
-import { convertDateToShow } from './utils/utils';
+import { convertDateToShow } from './utils/utils_2';
 import {IAllDays, ICalendar} from './types/types';
 import {PutTeamsService} from './services/put-teams.service';
 
