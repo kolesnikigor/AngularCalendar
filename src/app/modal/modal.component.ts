@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { IMember, ITeam, IVacationsType } from '../../interfaces/interfaces';
+import { IMember, ITeam, IVacationsType } from '../interfaces/interfaces';
 
 @Component({
   selector: 'app-modal',

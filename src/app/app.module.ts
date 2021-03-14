@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InlineSVGModule } from 'ng-inline-svg';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TableComponent } from './table/table.component';
-import { NavigationComponent } from './navigation/navigation.component';
-import { ModalComponent } from './components/modal/modal.component';
-import { HttpClientModule } from '@angular/common/http';
-import { InlineSVGModule } from 'ng-inline-svg';
+import { TableComponent } from './components/table/table.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
