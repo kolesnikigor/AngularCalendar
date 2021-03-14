@@ -2,7 +2,7 @@
   <div class="modal__container">
     <div class="modal__header">
       <h2 class="modal__title">Vacation Request</h2>
-      <span class="modal__vacation-period">1n day</span>
+      <span class="modal__vacation-period">{{quantityVacationDays}} Days</span>
     </div>
     <form class="form" action="" [formGroup]="vacationForm">
       <h3 class="form__title">Dates</h3>
@@ -13,7 +13,7 @@
             type="date"
             id="start-date"
             class="form__date-input"
-            formControlName="startVacationDate"
+            formControlName="startDate"
             (change)="setStartDayVacation($event)"
           />
         </label>
@@ -23,7 +23,7 @@
             type="date"
             id="end-date"
             class="form__date-input"
-            formControlName="endVacationDate"
+            formControlName="endDate"
             (change)="setEndDayVacation($event)"
           />
         </label>
@@ -32,7 +32,7 @@
         <p>Team</p>
         <span class="form__select-icon" [inlineSVG]="'../../assets/images/toggle.svg'"></span>
         <select formControlName="team" class="form__select">
-          <option *ngFor="let team of teams" [ngValue]="team">
+          <option *ngFor="let team of teams" [ngValue]="team.name">
             {{ team.name }}
           </option>
         </select>
@@ -41,11 +41,28 @@
         User
         <span class="form__select-icon" [inlineSVG]="'../../assets/images/toggle.svg'"></span>
         <select formControlName="user" class="form__select">
-          <option *ngFor=""></option>
+          <option *ngFor="let user of teams[selectedTeamIndex].members" [ngValue]="user.name">
+            {{user.name}}
+          </option>
         </select>
       </label>
-
+      <label class="form__title flex-column">
+        Vac Type
+        <span class="form__select-icon" [inlineSVG]="'../../assets/images/toggle.svg'"></span>
+        <select formControlName="type" class="form__select">
+          <option *ngFor="let type of vacationsType" [ngValue]="type.type">
+            {{type.description}}
+          </option>
+        </select>
+      </label>
+      <div class="form__footer">
+        <button class="button button_cancel">
+          Cancel
+        </button>
+        <button class="button button_submit">
+          Send
+        </button>
+      </div>
     </form>
-    <button (click)="habdleShow()">ok</button>
   </div>
 </div>

@@ -1,3 +1,8 @@
+export interface IVacationsType {
+  type: string
+  description: string
+}
+
 export interface IVacation {
   startDate: string
   endDate: string

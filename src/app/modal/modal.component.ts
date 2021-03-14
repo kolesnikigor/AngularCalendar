@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { ITeam } from '../interfaces/teamsDepartments';
+import { IMember, ITeam, IVacationsType } from '../interfaces/teamsDepartments';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { ITeam } from '../interfaces/teamsDepartments';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
-  @Input() teams: ITeam
+  @Input() teams: Array<ITeam>
   @Input() startDayVacation: string
   @Input() endDayVacation: string
   @Output() someEvent = new EventEmitter()
@@ -19,23 +19,53 @@ export class ModalComponent implements OnInit {
   @Output() showData = new EventEmitter()
 
   vacationForm: FormGroup
-  startDate: string = new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd')
-  endDate: string = new DatePipe('en-US').transform(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd')
+  selectedStartDate: string = new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd')
+  selectedEndDate: string = new DatePipe('en-US').transform(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd')
+  selectedTeam: string = 'Frontend Team'
+  selectedTeamIndex: number = 0
+  selectedTeamMembers: Array<IMember>
+  vacationsType: Array<IVacationsType> = [
+    {type: 'Paid', description: 'Paid Day Off (PD)'},
+    {type: 'UnPaid', description: 'UnPaid Day Off (UPD)'}
+  ]
+  quantityVacationDays: number = 1
 
 
   constructor() {}
 
   ngOnInit(): void {
     this.initVacationForm()
-    console.log("----> ", this.teams[0].name);
+    this.handleFormValue()
   }
 
   initVacationForm(): void {
     this.vacationForm = new FormGroup({
-      team: new FormControl(this.teams[0]),
-      startVacationDate: new FormControl(this.startDate),
-      endVacationDate: new FormControl(this.endDate),
+      startDate: new FormControl(this.selectedStartDate),
+      endDate: new FormControl(this.selectedEndDate),
+      team: new FormControl(this.selectedTeam),
+      user: new FormControl('FE_Team_User1'),
+      type: new FormControl('Paid'),
     })
+  }
+
+  handleFormValue(): void {
+    this.vacationForm.valueChanges.subscribe({
+      next: (data) => {
+        this.selectedTeam = data.team
+        this.getIndexTeam(data.team)
+        this.countVacationDays(data.startDate, data.endDate)
+      }
+    })
+  }
+
+  getIndexTeam(selectedTeamName: string): void {
+    this.selectedTeamIndex = this.teams.findIndex(team => team.name === selectedTeamName)
+  }
+
+  countVacationDays(startDate: Date, endDate: Date): void {
+    this.quantityVacationDays = (
+      new Date(endDate).getTime() - new Date(startDate).getTime()
+    ) / 86400000 + 1
   }
 
   callEvent(): void {

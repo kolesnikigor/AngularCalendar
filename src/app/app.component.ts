@@ -9,12 +9,12 @@ import { convertDateToShow } from './utils/utils';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit  {
-  teamsDepartments: ITeams
+  teamsDepartments: ITeams = teamsData
   startDayVacation: string
   endDayVacation: string
 
   ngOnInit() {
-    this.teamsDepartments = teamsData
+    // this.teamsDepartments = teamsData
     this.startDayVacation = convertDateToShow(
       new Date().toLocaleDateString('en-Us', {
         year: 'numeric',
