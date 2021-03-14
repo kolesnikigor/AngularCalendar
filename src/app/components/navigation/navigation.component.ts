@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 
 
 @Component({
@@ -11,14 +11,21 @@ export class NavigationComponent implements OnInit {
   constructor() {
   }
 
-  date = new Date();
+  @Input() date: Date;
+  @Output() newDate = new EventEmitter<Date>();
+
+  changeDate(value: Date): void {
+    this.newDate.emit(value);
+  }
 
   nextMonth(): void {
     this.date = new Date(this.date.setMonth(this.date.getMonth() + 1));
+    this.changeDate(this.date);
   }
 
   prevMonth(): void {
     this.date = new Date(this.date.setMonth(this.date.getMonth() - 1));
+    this.changeDate(this.date);
   }
 
   ngOnInit(): void {

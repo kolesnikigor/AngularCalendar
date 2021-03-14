@@ -1,0 +1,393 @@
+.calendarTable {
+  --first-team-color: rgba(155, 153, 255, 1);
+  --second-team-color: rgba(122, 175, 255, 1);
+  --third-team-color: rgba(255, 153, 153, 1);
+  --fourth-team-color: rgba(255, 167, 104, 1);
+  --fifth-team-color: rgba(155, 153, 255, 1);
+  --sixth-team-color: rgba(122, 175, 255, 1);
+}
+
+$first-team-color: rgba(155, 153, 255, 1);
+$second-team-color: rgba(122, 175, 255, 1);
+$third-team-color: rgba(255, 153, 153, 1);
+$fourth-team-color: rgba(255, 167, 104, 1);
+$fifth-team-color: rgba(155, 153, 255, 1);
+$sixth-team-color: rgba(122, 175, 255, 1);
+$bgOpacity: 18;
+
+// --------------------------Table--------------------------
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.calendarTable {
+  margin-bottom: 30px;
+
+  thead {
+    td {
+      height: 64px;
+      text-align: center;
+
+      & > span {
+        display: block;
+
+        &:first-child {
+          font-size: 12px;
+          line-height: 18px;
+        }
+
+        &:last-child {
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 21px;
+        }
+      }
+    }
+  }
+
+  tbody {
+    td {
+      height: 34px;
+    }
+  }
+
+  tfoot {
+    tr {
+      border: none;
+    }
+
+    td {
+      height: 34px;
+    }
+  }
+
+  tr {
+    animation: table-row-show var(--transition-time);
+
+    & > td {
+      border: 1px solid #d7d7d7;
+      width: 34px;
+      min-width: 34px;
+      vertical-align: middle;
+      animation: table-row-show var(--transition-time);
+
+      &:first-child {
+        min-width: 260px;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  &__addVocation {
+    border: 0 !important;
+    text-align: left !important;
+  }
+
+  &__team-name {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  &__team-header {
+    .calendarTable__team-name {
+      font-weight: 600;
+    }
+  }
+
+  &__team-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  &__team-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #949494;
+    margin-left: auto;
+
+    img {
+      margin-right: 3px;
+    }
+  }
+
+  &__percentage {
+    border-radius: 2px;
+    font-size: 12px;
+    line-height: 18px;
+    color: #fff;
+    width: 28px;
+    margin-left: 13px;
+    text-align: center;
+  }
+
+  &__team-toggle {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    outline: none;
+    margin-left: 18px;
+    padding: 0;
+    transform: rotate(180deg);
+    transition: transform var(--transition-time);
+
+    &_open {
+      transform: rotate(0);
+    }
+  }
+
+  &__addVocation {
+    border: 0 !important;
+    text-align: left !important;
+  }
+
+  &__dayOff {
+    background-color: #f0f0f0;
+  }
+
+  &__team-header td:first-child {
+    cursor: pointer;
+  }
+
+  &__total {
+    background: #F3F3F3;
+  }
+
+  &__ident {
+    border-bottom: 41px solid #fff;
+  }
+
+  &__vacation-by-day {
+    text-align: center;
+    line-height: 31px;
+  }
+}
+
+.paid {
+  height: 30px;
+  z-index: 4;
+  color: #fff;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unpaid {
+  height: 28px;
+  z-index: 4;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.summary {
+
+  &__title {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    margin-bottom: 6px;
+  }
+
+  &__month-info {
+    width: 232px;
+    border-top: 1px solid #E2E2E2;
+    padding: 9px 0;
+  }
+
+  &__item-title {
+    margin-right: 55px;
+  }
+
+  &__vacations-people {
+    margin: 0 15px 0 2px;
+  }
+
+  &__percentage {
+    width: 42px;
+    color: #fff;
+    background-color: #48BA46;
+    display: inline-block;
+    text-align: center;
+    line-height: 26px;
+    border-radius: 2px;
+  }
+}
+
+// --------------------------Themes--------------------------
+
+.color0 {
+  & > td:first-child {
+    border-left: 3px solid var(--first-team-color) !important;
+  }
+
+  & .calendarTable__percentage {
+    background: var(--first-team-color);
+  }
+
+  & .calendarTable__vacations {
+    background: var(--first-team-color);
+  }
+
+  &.calendarTable__team-header > td {
+    background-color: lighten($first-team-color, $bgOpacity) !important;
+  }
+
+  & .unpaid {
+    background-color: lighten($first-team-color, $bgOpacity) !important;
+    border: 1px solid var(--first-team-color);
+  }
+
+}
+
+.color1 {
+  & > td:first-child {
+    border-left: 3px solid var(--second-team-color) !important;
+  }
+
+  & .calendarTable__percentage {
+    background: var(--second-team-color);
+  }
+
+  & .calendarTable__vacations {
+    background: var(--second-team-color);
+  }
+
+  &.calendarTable__team-header > td {
+    background-color: lighten($second-team-color, $bgOpacity);
+  }
+  & .unpaid {
+    background-color: lighten($second-team-color, $bgOpacity) !important;
+    border: 1px solid var(--second-team-color);
+  }
+
+}
+
+.color2 {
+  & > td:first-child {
+    border-left: 3px solid var(--third-team-color) !important;
+  }
+
+  & .calendarTable__percentage {
+    background: var(--third-team-color);
+  }
+
+  & .calendarTable__vacations {
+    background: var(--third-team-color);
+  }
+
+  &.calendarTable__team-header > td {
+    background-color: lighten($third-team-color, $bgOpacity);
+  }
+  & .unpaid {
+    background-color: lighten($third-team-color, $bgOpacity) !important;
+    border: 1px solid var(--third-team-color);
+  }
+
+}
+
+.color3 {
+  & > td:first-child {
+    border-left: 3px solid var(--fourth-team-color) !important;
+  }
+
+  & .calendarTable__percentage {
+    background: var(--fourth-team-color);
+  }
+
+  & .calendarTable__vacations {
+    background: var(--fourth-team-color);
+  }
+
+  &.calendarTable__team-header > td {
+    background-color: lighten($fourth-team-color, $bgOpacity);
+  }
+  & .unpaid {
+    background-color: lighten($fourth-team-color, $bgOpacity) !important;
+    border: 1px solid var(--fourth-team-color);
+  }
+
+}
+
+.color4 {
+  & > td:first-child {
+    border-left: 3px solid var(--fifth-team-color) !important;
+  }
+
+  & .calendarTable__percentage {
+    background: var(--fifth-team-color);
+  }
+
+  & .calendarTable__vacations {
+    background: var(--fifth-team-color);
+  }
+
+  &.calendarTable__team-header > td {
+    background-color: lighten($fifth-team-color, $bgOpacity);
+  }
+  & .unpaid {
+    background-color: lighten($fifth-team-color, $bgOpacity) !important;
+    border: 1px solid var(--fifth-team-color);
+  }
+
+}
+
+// --------------------------Calendar-Utils--------------------------
+
+.borderBottom {
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid #D7D7D7;
+  box-sizing: border-box;
+  padding-top: 2px
+}
+
+.borderTop {
+  width: 100%;
+  height: 100%;
+  border-top: 1px solid #D7D7D7;
+  box-sizing: border-box;
+}
+
+.text-center {
+  text-align: center;
+}
+
+// --------------------------Calendar-Buttons--------------------------
+
+.button {
+  cursor: pointer;
+  outline: none;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  transition: background-color var(--transition-time);
+}
+
+.button_a {
+  background: #48ba46;
+  color: #fff;
+  border: 0;
+  min-width: 144px;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    margin-right: 10px;
+  }
+
+  &:hover {
+    background-color: darken(#48ba46, 10%);
+  }
+}
+
