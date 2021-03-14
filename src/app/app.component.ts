@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import teamsData from './api/teamsData';
-import { ITeams } from './interfaces/teamsDepartments';
+import { ITeams } from './interfaces/interfaces';
 import { convertDateToShow } from './utils/utils';
 
 @Component({

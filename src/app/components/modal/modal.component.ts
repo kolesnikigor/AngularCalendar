@@ -1,14 +1,14 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { IMember, ITeam, IVacationsType } from '../interfaces/teamsDepartments';
-
+import { IMember, ITeam, IVacationsType } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
-})
+})  
+
 export class ModalComponent implements OnInit {
   @Input() teams: Array<ITeam>
   @Input() startDayVacation: string
@@ -29,7 +29,6 @@ export class ModalComponent implements OnInit {
     {type: 'UnPaid', description: 'UnPaid Day Off (UPD)'}
   ]
   quantityVacationDays: number = 1
-
 
   constructor() {}
 
