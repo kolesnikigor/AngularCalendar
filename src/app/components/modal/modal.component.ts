@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { IMember, ITeam, IVacationsType } from '../interfaces/interfaces';
+import { IMember, ITeam, IVacationsType } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-modal',
@@ -17,6 +17,7 @@ export class ModalComponent implements OnInit {
   @Output() startDateVacationInput = new EventEmitter<string>()
   @Output() endDateVacationInput = new EventEmitter<string>()
   @Output() showData = new EventEmitter()
+  @Output() modalToggle = new EventEmitter()
 
   vacationForm: FormGroup
   selectedStartDate: string = new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd')
@@ -81,5 +82,9 @@ export class ModalComponent implements OnInit {
 
   habdleShow(): void {
     this.showData.emit()
+  }
+
+  closeModal(): void {
+    this.modalToggle.emit()
   }
 }

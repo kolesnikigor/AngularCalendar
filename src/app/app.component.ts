@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   public date: Date = new Date();
   teams: ICalendar;
   isLoading: boolean;
-
+  isModalActive: boolean = false
   teamsDepartments: ITeams = teamsData
   startDayVacation: string
   endDayVacation: string
@@ -50,20 +50,24 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTeams();
-    this.startDayVacation = convertDateToShow(
-      new Date().toLocaleDateString('en-Us', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      })
-    )
-    this.endDayVacation = convertDateToShow(
-      new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleDateString('en-Us', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      })
-    )
+    // this.startDayVacation = convertDateToShow(
+    //   new Date().toLocaleDateString('en-Us', {
+    //     year: 'numeric',
+    //     month: '2-digit',
+    //     day: '2-digit',
+    //   })
+    // )
+    // this.endDayVacation = convertDateToShow(
+    //   new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleDateString('en-Us', {
+    //     year: 'numeric',
+    //     month: '2-digit',
+    //     day: '2-digit'
+    //   })
+    // )
+  }
+
+  modalToggle(): void {
+    this.isModalActive = !this.isModalActive;
   }
 
   changeDate(newDate: Date): void {
