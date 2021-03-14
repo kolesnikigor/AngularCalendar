@@ -3,7 +3,7 @@
   <thead>
   <tr>
     <td class='calendarTable__addVocation'>
-      <button (click)='modalToggle()' class='button button_a'>
+      <button class='button button_a'>
         <img [src]='iconPlusUrl' alt='#'/>
         <span>Add Vacation</span>
       </button>
@@ -19,8 +19,9 @@
   <tbody>
   <ng-container *ngFor="let team of teams.teams; index as ind">
     <tr class='calendarTable__team-header color{{ind}}' [ngClass]="{calendarTable__ident: isTeamsMembersShown[ind]}">
-      <td (click)="toggleHandler(ind)">
-        <div class='calendarTable__team-title' [ngClass]="{borderBottom: isTeamsMembersShown[ind], borderTop: ind !== 0}">
+      <td (click)="toggleIsTeamsMembersShow(ind)">
+        <div class='calendarTable__team-title'
+             [ngClass]="{borderBottom: isTeamsMembersShown[ind], borderTop: ind !== 0}">
           <span class='calendarTable__team-name'>{{team.name}}</span>
           <span class='calendarTable__team-count'>
             <img [src]='teamIcon' alt="#"/>
@@ -44,12 +45,14 @@
       <tr *ngFor="let member of team.members; index as i" class="color{{ind}}"
           [ngClass]="{calendarTable__ident: i === (team.members.length - 1)}">
         <td>
-          <div class='calendarTable__team-title' [ngClass]="{borderBottom: i === (team.members.length - 1)}">{{member.name}}</div>
+          <div class='calendarTable__team-title'
+               [ngClass]="{borderBottom: i === (team.members.length - 1)}">{{member.name}}</div>
         </td>
-        <td *ngFor="let day of allDays" [ngClass]='{calendarTable__dayOff: day.isDayOff === true }'>
+        <td *ngFor="let day of allDays; index as j" [ngClass]='{calendarTable__dayOff: day.isDayOff === true }'>
           <div [ngClass]="{borderBottom: i === (team.members.length - 1)}">
-<!--            // Добавить добавление в масив дней отпуска, вызвать здесь функцию-->
-            <div class="calendarTable__vacations" *ngIf="checkVacationsDate(member.vacations, day.fullDate)">Pd</div>
+            <ng-container
+              *ngIf="checkVacationsDate(member.vacations, day.fullDate) ? addSumVacationByDay(member.name ,j) : false"></ng-container>
+            <div class="calendarTable__vacations" [ngClass]="checkVacationsType(member.vacations)?'paid': 'unpaid'" *ngIf="checkVacationsDate(member.vacations, day.fullDate)">{{checkVacationsType(member.vacations)?'Pd': 'UPd'}}</div>
           </div>
         </td>
         <td class="calendarTable__total text-center">
@@ -63,16 +66,18 @@
   </tbody>
 
   <tfoot>
-    <tr class="last-row">
-      <td class="calendarTable__team-title calendarTable__total">
-        Day-Person Stats
-      </td>
-      <td *ngFor="let day of allDays; index as i" [ngClass]='{calendarTable__dayOff: day.isDayOff === true }'
-          class="calendarTable__total">
-            <div class="calendarTable__vacations" *ngIf="day.isDayOff === false">{{sumVacationByDay[i]}}</div>
-      </td>
-      <td class="calendarTable__total"></td>
-    </tr>
+  <tr class="last-row">
+    <td class="calendarTable__team-title calendarTable__total">
+      Day-Person Stats
+    </td>
+    <td *ngFor="let day of allDays; index as i" [ngClass]='{calendarTable__dayOff: day.isDayOff === true }'
+        class="calendarTable__total">
+      <div class="borderTop">
+        <div class="calendarTable__vacation-by-day" *ngIf="day.isDayOff === false">{{sumVacationByDay[i]}}</div>
+      </div>
+    </td>
+    <td class="calendarTable__total"><div class="borderTop"></div></td>
+  </tr>
   </tfoot>
 </table>
 

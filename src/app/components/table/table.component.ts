@@ -1,42 +1,53 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, OnChanges} from '@angular/core';
 import {IAllDays, ICalendar} from '../../types/types';
-import { checkVacationsDate, counterSumVacation } from '../../utils/utils';
+import {checkVacationsDate, counterSumVacation, checkVacationsType} from '../../utils/utils';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
 
   @Input() date: Date;
   @Input() allDays: IAllDays[];
   @Input() teams: ICalendar;
-  iconPlusUrl = '../../assets/images/plus.svg';
-  teamIcon = '../../assets/images/team.svg';
-  isModalActive = false;
+  iconPlusUrl = '../../../assets/images/plus.svg';
+  teamIcon = '../../../assets/images/team.svg';
   isTeamsMembersShown: boolean[];
   toggleIcon = '../../assets/images/toggle.svg';
-  sumVacationByDay: number[] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+  sumVacationByDay: number[] = [];
   checkVacationsDate = checkVacationsDate;
+  checkVacationsType = checkVacationsType;
   counterSumVacation = counterSumVacation;
 
-  // addSumVacationByDay(ind): void {
-  //   this.sumVacationByDay[ind] += 1;
-  // }
+  preventRepeatCheckVacation: string[] = [];
 
-  toggleHandler(i): void {
+  addSumVacationByDay(member, ind): void {
+    if (!this.preventRepeatCheckVacation.includes(`${member}${ind}`)) {
+      this.preventRepeatCheckVacation.push(`${member}${ind}`);
+      this.sumVacationByDay[ind] = this.sumVacationByDay[ind] + 1;
+    }
+  }
+
+  createEmptyArraySumVacationByDay(): void {
+    this.allDays.forEach(() => {
+      this.sumVacationByDay.push(0);
+    });
+  }
+
+  toggleIsTeamsMembersShow(i): void {
     this.isTeamsMembersShown[i] = !this.isTeamsMembersShown[i];
   }
 
-
-  modalToggle(): void {
-    this.isModalActive = !this.isModalActive;
+  ngOnChanges(SimpleChanges): void {
+    this.preventRepeatCheckVacation = [];
+    this.sumVacationByDay = [];
+    this.createEmptyArraySumVacationByDay();
   }
 
   ngOnInit(): void {
-    // this.sumVacationByDay = new Array(this.allDays.length);
+    this.createEmptyArraySumVacationByDay();
     this.isTeamsMembersShown = new Array(this.teams.teams.length);
-    // console.log(this.sumVacationByDay);
   }
 }
