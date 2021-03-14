@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IAllDays, ICalendar} from '../../types/types';
-import { checkVacationsDate, counterSumVacation } from '../../utils/utils_2';
+import { checkVacationsDate, counterSumVacation } from '../../utils/utils';
 
 @Component({
   selector: 'app-table',
