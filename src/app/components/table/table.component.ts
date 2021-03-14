@@ -12,8 +12,8 @@ export class TableComponent implements OnInit {
   @Input() date: Date;
   @Input() allDays: IAllDays[];
   @Input() teams: ICalendar;
-  iconPlusUrl = '../../assets/images/plus.svg';
-  teamIcon = '../../assets/images/team.svg';
+  iconPlusUrl = '../../../assets/images/plus.svg';
+  teamIcon = '../../../assets/images/team.svg';
   isModalActive = false;
   isTeamsMembersShown: boolean[];
   toggleIcon = '../../assets/images/toggle.svg';
