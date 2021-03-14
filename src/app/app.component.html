@@ -1,4 +1,7 @@
 <div class="container">
   <app-navigation [date]="date" (newDate)="changeDate($event)"></app-navigation>
-  <app-table [date]="date" [allDays]="getDaysOfActivePeriod()"></app-table>
+  <app-table *ngIf="isLoading" [teams]="teams" [date]="date" [allDays]="getDaysOfActivePeriod()"></app-table>
+  <div *ngIf="!isLoading" class='loading__wrapper'>
+    <div class='lds-dual-ring'></div>
+  </div>
 </div>
