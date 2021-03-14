@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, Output, EventEmitter} from '@angular/core';
 import {IAllDays, ICalendar} from '../../types/types';
 import {checkVacationsDate, counterSumVacation, checkVacationsType} from '../../utils/utils';
 
@@ -12,6 +12,9 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() date: Date;
   @Input() allDays: IAllDays[];
   @Input() teams: ICalendar;
+  @Input() isModalActive: boolean;
+  @Output() modalToggle = new EventEmitter()
+
   iconPlusUrl = '../../../assets/images/plus.svg';
   teamIcon = '../../../assets/images/team.svg';
   isTeamsMembersShown: boolean[];
@@ -44,6 +47,10 @@ export class TableComponent implements OnInit, OnChanges {
     this.preventRepeatCheckVacation = [];
     this.sumVacationByDay = [];
     this.createEmptyArraySumVacationByDay();
+  }
+  
+  toggleModal(): void {
+    this.modalToggle.emit()
   }
 
   ngOnInit(): void {

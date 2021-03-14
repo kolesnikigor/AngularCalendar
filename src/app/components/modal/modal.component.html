@@ -1,0 +1,68 @@
+<div class="modal">
+  <div class="modal__container">
+    <div class="modal__header">
+      <h2 class="modal__title">Vacation Request</h2>
+      <span class="modal__vacation-period">{{quantityVacationDays}} Days</span>
+    </div>
+    <form class="form" action="" [formGroup]="vacationForm">
+      <h3 class="form__title">Dates</h3>
+      <div class="form__date flex-row">
+        <label class="form__date-label flex-column" for="start-date">
+          From
+          <input
+            type="date"
+            id="start-date"
+            class="form__date-input"
+            formControlName="startDate"
+            (change)="setStartDayVacation($event)"
+          />
+        </label>
+        <label class="form__date-label flex-column" for="end-date">
+          To
+          <input
+            type="date"
+            id="end-date"
+            class="form__date-input"
+            formControlName="endDate"
+            (change)="setEndDayVacation($event)"
+          />
+        </label>
+      </div>
+      <label class="form__title flex-column">
+        <p>Team</p>
+        <span class="form__select-icon" [inlineSVG]="'../../assets/images/toggle.svg'"></span>
+        <select formControlName="team" class="form__select">
+          <option *ngFor="let team of teams" [ngValue]="team.name">
+            {{ team.name }}
+          </option>
+        </select>
+      </label>
+      <label class="form__title flex-column">
+        User
+        <span class="form__select-icon" [inlineSVG]="'../../assets/images/toggle.svg'"></span>
+        <select formControlName="user" class="form__select">
+          <option *ngFor="let user of teams[selectedTeamIndex].members" [ngValue]="user.name">
+            {{user.name}}
+          </option>
+        </select>
+      </label>
+      <label class="form__title flex-column">
+        Vac Type
+        <span class="form__select-icon" [inlineSVG]="'../../assets/images/toggle.svg'"></span>
+        <select formControlName="type" class="form__select">
+          <option *ngFor="let type of vacationsType" [ngValue]="type.type">
+            {{type.description}}
+          </option>
+        </select>
+      </label>
+      <div class="form__footer">
+        <button class="button button_cancel" (click)="closeModal()">
+          Cancel
+        </button>
+        <button class="button button_submit">
+          Send
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
