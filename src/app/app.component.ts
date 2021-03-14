@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {IAllDays} from './types/types';
+import {IAllDays, ICalendar} from './types/types';
+import {PutTeamsService} from './services/put-teams.service';
 
 
 @Component({
@@ -7,9 +8,13 @@ import {IAllDays} from './types/types';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit  {
+export class AppComponent implements OnInit {
+  constructor(private putTeamsService: PutTeamsService) {
+  }
 
   public date: Date = new Date();
+  teams: ICalendar;
+  isLoading: boolean;
 
   getDaysOfActivePeriod(): IAllDays[] {
     const year = this.date.getFullYear();
@@ -19,7 +24,7 @@ export class AppComponent implements OnInit  {
     while (date.getMonth() === month) {
       const item = new Date(date);
       days.push({
-        dayName: item.toLocaleDateString('en-US', { weekday: 'short' }),
+        dayName: item.toLocaleDateString('en-US', {weekday: 'short'}),
         date: item.getDate(),
         isDayOff: item.getDay() === 0 || item.getDay() === 6,
         fullDate: item,
@@ -29,7 +34,15 @@ export class AppComponent implements OnInit  {
     return days;
   }
 
+  getTeams(): void {
+    this.putTeamsService.putTeams().subscribe(value => {
+      this.teams = value;
+      this.isLoading = !this.isLoading;
+    });
+  }
+
   ngOnInit(): void {
+    this.getTeams();
   }
 
   changeDate(newDate: Date): void {

@@ -1,4 +1,4 @@
-<table *ngIf="isLoading" class='calendarTable'>
+<table class='calendarTable'>
 
   <thead>
   <tr>
@@ -34,7 +34,7 @@
         </div>
       </td>
       <td *ngFor="let day of allDays" [ngClass]='{calendarTable__dayOff: day.isDayOff === true}'>
-        <div [ngClass]="{borderBottom: isTeamsMembersShown[ind],borderTop: ind !== 0}"></div>
+        <div [ngClass]="{borderBottom: isTeamsMembersShown[ind], borderTop: ind !== 0}"></div>
       </td>
       <td class="calendarTable__total">
         <div [ngClass]="{borderBottom: isTeamsMembersShown[ind], borderTop: ind !== 0}"></div>
@@ -48,6 +48,7 @@
         </td>
         <td *ngFor="let day of allDays" [ngClass]='{calendarTable__dayOff: day.isDayOff === true }'>
           <div [ngClass]="{borderBottom: i === (team.members.length - 1)}">
+<!--            // Добавить добавление в масив дней отпуска, вызвать здесь функцию-->
             <div class="calendarTable__vacations" *ngIf="checkVacationsDate(member.vacations, day.fullDate)">Pd</div>
           </div>
         </td>
@@ -66,16 +67,16 @@
       <td class="calendarTable__team-title calendarTable__total">
         Day-Person Stats
       </td>
-      <td *ngFor="let day of allDays" [ngClass]='{calendarTable__dayOff: day.isDayOff === true }'
+      <td *ngFor="let day of allDays; index as i" [ngClass]='{calendarTable__dayOff: day.isDayOff === true }'
           class="calendarTable__total">
-        <!--    <div class="calendarTable__vacations" *ngIf="checkVacationsDate(member.vacations, day.fullDate)">Pd</div>-->
+            <div class="calendarTable__vacations" *ngIf="day.isDayOff === false">{{sumVacationByDay[i]}}</div>
       </td>
       <td class="calendarTable__total"></td>
     </tr>
   </tfoot>
 </table>
 
-<div *ngIf="isLoading" class="summary">
+<div class="summary">
   <h4 class="summary__title">{{date | date: 'MMMM'}} teams Summary</h4>
   <div class="summary__month-info">
     <span class="summary__item-title">On vacation</span>
@@ -85,6 +86,4 @@
   </div>
 </div>
 
-<div *ngIf="!isLoading" class='loading__wrapper'>
-  <div class='lds-dual-ring'></div>
-</div>
+
