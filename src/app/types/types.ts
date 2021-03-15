@@ -33,9 +33,9 @@ export interface IAllDays {
 }
 
 export interface ISelectedData {
-  startDate: string
-  endDate: string
-  team: string
-  user: string
-  type: string
+  startDate: string;
+  endDate: string;
+  team: string;
+  user: string;
+  type: string;
 }

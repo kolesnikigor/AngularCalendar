@@ -1,15 +1,19 @@
 <div class="container">
   <app-navigation [date]="date" (newDate)="changeDate($event)"></app-navigation>
-  <app-table *ngIf="isLoading" [teams]="teams" [date]="date" (modalToggle)="modalToggle()" [allDays]="getDaysOfActivePeriod()"></app-table>
+  <app-table *ngIf="isLoading" [teams]="teams" [date]="date" (modalToggle)="modalToggle()"
+             [allDays]="getDaysOfActivePeriod()"></app-table>
   <div *ngIf="!isLoading" class='loading__wrapper'>
     <div class='lds-dual-ring'></div>
   </div>
   <app-modal *ngIf="isModalActive"
-    [teams]="teams.teams"
-    [startDayVacation]="startDayVacation"
-    [endDayVacation]="endDayVacation"
-    (modalToggle)="modalToggle()"
-    (getSelectedDataVacations)="getSelectedDataVacations($event)"
-    (addVacationns)="addVacationns()"
+             [teams]="teams.teams"
+             [selectedStartDate]="selectedStartDate"
+             [selectedEndDate]="selectedEndDate"
+             [selectedTeam]="selectedTeam"
+             [selectedUser]="selectedUser"
+             [selectedTypeVacation]="selectedTypeVacation"
+             (modalToggle)="modalToggle()"
+             (getSelectedDataVacations)="getSelectedDataVacations($event)"
+             (addVacations)="addVacations()"
   ></app-modal>
 </div>

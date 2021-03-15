@@ -17,11 +17,11 @@ export class AppComponent implements OnInit {
   teams: ICalendar;
   isLoading: boolean;
   isModalActive = false;
-  startDayVacation: string;
-  endDayVacation: string;
-  selectedTeam: string;
-  selectedUser: string;
-  typeVacation: string;
+  selectedStartDate: string = new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd');
+  selectedEndDate: string = new DatePipe('en-US').transform(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd');
+  selectedTeam = 'Frontend Team';
+  selectedUser = 'FE_Team_User1';
+  selectedTypeVacation = 'Paid';
 
   getDaysOfActivePeriod(): IAllDays[] {
     const year = this.date.getFullYear();
@@ -48,9 +48,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  // ngOnChanges(SimpleChanges): void {
-  // }
-
   ngOnInit(): void {
     this.getTeams();
   }
@@ -64,20 +61,21 @@ export class AppComponent implements OnInit {
   }
 
   getSelectedDataVacations(data: ISelectedData): void {
-    this.startDayVacation = new DatePipe('en-US').transform(new Date(data.startDate), 'dd.MM.yyyy');
-    console.log(this.startDayVacation)
-    this.endDayVacation = new DatePipe('en-US').transform(new Date(data.endDate), 'dd.MM.yyyy');
+    this.selectedStartDate = data.startDate;
+    this.selectedEndDate = data.endDate;
     this.selectedTeam = data.team;
     this.selectedUser = data.user;
-    this.typeVacation = data.type;
-
+    this.selectedTypeVacation = data.type;
   }
 
-  addVacationns(): void {
-    console.log(this.startDayVacation)
-    console.log(this.endDayVacation)
-    console.log(this.selectedTeam)
-    console.log(this.selectedUser)
-    console.log(this.typeVacation)
+  addVacations(): void {
+    this.selectedStartDate = new DatePipe('en-US').transform(new Date(this.selectedStartDate), 'dd.MM.yyyy');
+    this.selectedEndDate = new DatePipe('en-US').transform(new Date(this.selectedEndDate), 'dd.MM.yyyy');
+    const teamIndex = this.teams.teams.findIndex(t => t.name === this.selectedTeam);
+    const userIndex = this.teams.teams[teamIndex].members.findIndex(t => t.name === this.selectedUser);
+    const newVacation = { startDate: this.selectedStartDate, endDate: this.selectedEndDate, type: this.selectedTypeVacation};
+    this.teams.teams[teamIndex].members[userIndex].vacations.push(newVacation);
+    this.selectedStartDate = new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd');
+    this.selectedEndDate = new DatePipe('en-US').transform(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd');
   }
 }
