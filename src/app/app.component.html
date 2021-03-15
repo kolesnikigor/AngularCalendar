@@ -8,9 +8,8 @@
     [teams]="teams.teams"
     [startDayVacation]="startDayVacation"
     [endDayVacation]="endDayVacation"
-    (startDateVacationInput)="handleStartDayVacation($event)"
-    (endDateVacationInput)="handleEndDayVacation($event)"
-             (typeVacation)="handleTypeVacation($event)"
     (modalToggle)="modalToggle()"
+    (getSelectedDataVacations)="getSelectedDataVacations($event)"
+    (addVacationns)="addVacationns()"
   ></app-modal>
 </div>
