@@ -14,7 +14,6 @@
             id="start-date"
             class="form__date-input"
             formControlName="startDate"
-            (change)="setStartDayVacation($event)"
           />
         </label>
         <label class="form__date-label flex-column" for="end-date">
@@ -24,7 +23,6 @@
             id="end-date"
             class="form__date-input"
             formControlName="endDate"
-            (change)="setEndDayVacation($event)"
           />
         </label>
       </div>
@@ -59,7 +57,7 @@
         <button class="button button_cancel" (click)="closeModal()">
           Cancel
         </button>
-        <button class="button button_submit">
+        <button class="button button_submit" (click)="addNewVacations()">
           Send
         </button>
       </div>

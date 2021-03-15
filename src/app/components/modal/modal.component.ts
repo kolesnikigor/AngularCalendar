@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {DatePipe} from '@angular/common';
-import {ITeamMember, ITeam, IVacationsType} from '../../types/types';
+import {ITeamMember, ITeam, IVacationsType, ISelectedData} from '../../types/types';
 
 @Component({
   selector: 'app-modal',
@@ -13,13 +13,11 @@ export class ModalComponent implements OnInit {
   @Input() teams: Array<ITeam>;
   @Input() startDayVacation: string;
   @Input() endDayVacation: string;
-  @Output() startDateVacationInput = new EventEmitter<string>();
-  @Output() endDateVacationInput = new EventEmitter<string>();
-  @Output() typeVacation = new EventEmitter<string>();
-  @Output() indexTeam = new EventEmitter<number>();
-  @Output() memberName = new EventEmitter<string>();
-  @Output() showData = new EventEmitter();
+
+  // @Output() indexTeam = new EventEmitter<number>();
   @Output() modalToggle = new EventEmitter();
+  @Output() addVacationns = new EventEmitter();
+  @Output() getSelectedDataVacations = new EventEmitter<ISelectedData>();
 
   vacationForm: FormGroup;
   selectedStartDate: string = new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd');
@@ -62,6 +60,8 @@ export class ModalComponent implements OnInit {
         this.selectedUser = data.user;
         this.getIndexTeam(data.team);
         this.countVacationDays(data.startDate, data.endDate);
+
+        this.getSelectedDataVacations.emit(data);
       }
     });
   }
@@ -76,27 +76,14 @@ export class ModalComponent implements OnInit {
     ) / 86400000 + 1;
   }
 
-  setStartDayVacation(event): void {
-    this.startDateVacationInput.emit(event.target.value);
-  }
-
-  setEndDayVacation(event): void {
-    this.endDateVacationInput.emit(event.target.value);
-  }
-
-  // setTypeVacation(): void {
-  //   this.typeVacation.emit(this.selectedTypeVacation);
-  // }
-  //
   // setIndexTeam(event): void {
   //   this.indexTeam.emit(event.target);
   //   console.log(event.target.value);
   // }
-  //
-  // setMemberName(event): void {
-  //   this.memberName.emit(this.selectedUser);
-  // }
 
+  addNewVacations(): void {
+    this.addVacationns.emit();
+  }
   closeModal(): void {
     this.modalToggle.emit();
   }
