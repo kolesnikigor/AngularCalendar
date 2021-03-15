@@ -1,7 +1,6 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {DatePipe} from '@angular/common';
-import {ITeamMember, ITeam, IVacationsType} from '../../types/types';
+import {ITeamMember, ITeam, IVacationsType, ISelectedData} from '../../types/types';
 
 @Component({
   selector: 'app-modal',
@@ -11,24 +10,19 @@ import {ITeamMember, ITeam, IVacationsType} from '../../types/types';
 
 export class ModalComponent implements OnInit {
   @Input() teams: Array<ITeam>;
-  @Input() startDayVacation: string;
-  @Input() endDayVacation: string;
-  @Output() startDateVacationInput = new EventEmitter<string>();
-  @Output() endDateVacationInput = new EventEmitter<string>();
-  @Output() typeVacation = new EventEmitter<string>();
-  @Output() indexTeam = new EventEmitter<number>();
-  @Output() memberName = new EventEmitter<string>();
-  @Output() showData = new EventEmitter();
+  @Input() selectedStartDate: string;
+  @Input() selectedEndDate: string;
+  @Input() selectedTeam: string;
+  @Input() selectedUser: string;
+  @Input() selectedTypeVacation: string;
+
   @Output() modalToggle = new EventEmitter();
+  @Output() addVacations = new EventEmitter();
+  @Output() getSelectedDataVacations = new EventEmitter<ISelectedData>();
 
   vacationForm: FormGroup;
-  selectedStartDate: string = new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd');
-  selectedEndDate: string = new DatePipe('en-US').transform(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd');
-  selectedTeam = 'Frontend Team';
   selectedTeamIndex = 0;
   selectedTeamMembers: Array<ITeamMember>;
-  selectedTypeVacation = 'Paid';
-  selectedUser = 'FE_Team_User1';
   vacationsType: Array<IVacationsType> = [
     {type: 'Paid', description: 'Paid Day Off (PD)'},
     {type: 'UnPaid', description: 'UnPaid Day Off (UPD)'}
@@ -62,6 +56,7 @@ export class ModalComponent implements OnInit {
         this.selectedUser = data.user;
         this.getIndexTeam(data.team);
         this.countVacationDays(data.startDate, data.endDate);
+        this.getSelectedDataVacations.emit(data);
       }
     });
   }
@@ -76,27 +71,10 @@ export class ModalComponent implements OnInit {
     ) / 86400000 + 1;
   }
 
-  setStartDayVacation(event): void {
-    this.startDateVacationInput.emit(event.target.value);
+  addNewVacations(): void {
+    this.addVacations.emit();
+    this.modalToggle.emit();
   }
-
-  setEndDayVacation(event): void {
-    this.endDateVacationInput.emit(event.target.value);
-  }
-
-  // setTypeVacation(): void {
-  //   this.typeVacation.emit(this.selectedTypeVacation);
-  // }
-  //
-  // setIndexTeam(event): void {
-  //   this.indexTeam.emit(event.target);
-  //   console.log(event.target.value);
-  // }
-  //
-  // setMemberName(event): void {
-  //   this.memberName.emit(this.selectedUser);
-  // }
-
   closeModal(): void {
     this.modalToggle.emit();
   }

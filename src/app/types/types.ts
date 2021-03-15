@@ -31,3 +31,11 @@ export interface IAllDays {
   isDayOff: boolean;
   fullDate: Date;
 }
+
+export interface ISelectedData {
+  startDate: string;
+  endDate: string;
+  team: string;
+  user: string;
+  type: string;
+}

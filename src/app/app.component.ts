@@ -1,6 +1,7 @@
 import {Component, OnInit, OnChanges} from '@angular/core';
-import {IAllDays, ICalendar} from './types/types';
+import {IAllDays, ICalendar, ISelectedData} from './types/types';
 import {PutTeamsService} from './services/put-teams.service';
+import {DatePipe} from '@angular/common';
 
 
 @Component({
@@ -8,7 +9,7 @@ import {PutTeamsService} from './services/put-teams.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnChanges {
+export class AppComponent implements OnInit {
   constructor(private putTeamsService: PutTeamsService) {
   }
 
@@ -16,9 +17,11 @@ export class AppComponent implements OnInit, OnChanges {
   teams: ICalendar;
   isLoading: boolean;
   isModalActive = false;
-  startDayVacation: string;
-  endDayVacation: string;
-  typeVacation: string;
+  selectedStartDate: string = new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd');
+  selectedEndDate: string = new DatePipe('en-US').transform(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd');
+  selectedTeam = 'Frontend Team';
+  selectedUser = 'FE_Team_User1';
+  selectedTypeVacation = 'Paid';
 
   getDaysOfActivePeriod(): IAllDays[] {
     const year = this.date.getFullYear();
@@ -45,9 +48,6 @@ export class AppComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(SimpleChanges): void {
-  }
-
   ngOnInit(): void {
     this.getTeams();
   }
@@ -60,15 +60,22 @@ export class AppComponent implements OnInit, OnChanges {
     this.date = newDate;
   }
 
-  handleStartDayVacation(date: string): void {
-    this.startDayVacation = date;
+  getSelectedDataVacations(data: ISelectedData): void {
+    this.selectedStartDate = data.startDate;
+    this.selectedEndDate = data.endDate;
+    this.selectedTeam = data.team;
+    this.selectedUser = data.user;
+    this.selectedTypeVacation = data.type;
   }
 
-  handleEndDayVacation(date: string): void {
-    this.endDayVacation = date;
-  }
-
-  handleTypeVacation(data: string): void {
-    this.typeVacation = data;
+  addVacations(): void {
+    this.selectedStartDate = new DatePipe('en-US').transform(new Date(this.selectedStartDate), 'dd.MM.yyyy');
+    this.selectedEndDate = new DatePipe('en-US').transform(new Date(this.selectedEndDate), 'dd.MM.yyyy');
+    const teamIndex = this.teams.teams.findIndex(t => t.name === this.selectedTeam);
+    const userIndex = this.teams.teams[teamIndex].members.findIndex(t => t.name === this.selectedUser);
+    const newVacation = { startDate: this.selectedStartDate, endDate: this.selectedEndDate, type: this.selectedTypeVacation};
+    this.teams.teams[teamIndex].members[userIndex].vacations.push(newVacation);
+    this.selectedStartDate = new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd');
+    this.selectedEndDate = new DatePipe('en-US').transform(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd');
   }
 }
