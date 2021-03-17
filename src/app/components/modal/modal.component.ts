@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter, OnChanges} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ITeamMember, ITeam, IVacationsType, ISelectedData} from '../../types/types';
 
@@ -36,6 +36,10 @@ export class ModalComponent implements OnInit {
     this.initVacationForm();
     this.handleFormValue();
   }
+  
+  ngOnChanges(): void {
+    this.udpateSelectedUser(this.selectedTeamIndex);
+  }
 
   initVacationForm(): void {
     this.vacationForm = new FormGroup({
@@ -50,12 +54,8 @@ export class ModalComponent implements OnInit {
   handleFormValue(): void {
     this.vacationForm.valueChanges.subscribe({
       next: (data) => {
-        this.selectedTeam = data.team;
-        this.selectedStartDate = data.startDate;
-        this.selectedEndDate = data.endDate;
-        this.selectedUser = data.user;
-        this.getIndexTeam(data.team);
         this.countVacationDays(data.startDate, data.endDate);
+        this.getIndexTeam(data.team);
         this.getSelectedDataVacations.emit(data);
       }
     });
@@ -65,10 +65,16 @@ export class ModalComponent implements OnInit {
     this.selectedTeamIndex = this.teams.findIndex(team => team.name === selectedTeamName);
   }
 
+  udpateSelectedUser(currentTeamIndex: number): void {
+    console.log(this.teams[currentTeamIndex].members[0].name)
+    this.selectedUser = this.teams[currentTeamIndex].members[0].name;
+  }
+
   countVacationDays(startDate: Date, endDate: Date): void {
+    const millisecondsPerDay: number = 86400000;
     this.quantityVacationDays = (
       new Date(endDate).getTime() - new Date(startDate).getTime()
-    ) / 86400000 + 1;
+    ) / millisecondsPerDay + 1;
   }
 
   addNewVacations(): void {

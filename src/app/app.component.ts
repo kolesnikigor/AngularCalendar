@@ -23,6 +23,17 @@ export class AppComponent implements OnInit {
   selectedUser = 'FE_Team_User1';
   selectedTypeVacation = 'Paid';
 
+  ngOnInit(): void {
+    this.getTeams();
+  }
+
+  getTeams(): void {
+    this.putTeamsService.putTeams().subscribe(value => {
+      this.teams = value;
+      this.isLoading = !this.isLoading;
+    });
+  }
+
   getDaysOfActivePeriod(): IAllDays[] {
     const year = this.date.getFullYear();
     const month = this.date.getMonth();
@@ -39,17 +50,6 @@ export class AppComponent implements OnInit {
       date.setDate(date.getDate() + 1);
     }
     return days;
-  }
-
-  getTeams(): void {
-    this.putTeamsService.putTeams().subscribe(value => {
-      this.teams = value;
-      this.isLoading = !this.isLoading;
-    });
-  }
-
-  ngOnInit(): void {
-    this.getTeams();
   }
 
   modalToggle(): void {
@@ -75,6 +75,10 @@ export class AppComponent implements OnInit {
     const userIndex = this.teams.teams[teamIndex].members.findIndex(t => t.name === this.selectedUser);
     const newVacation = { startDate: this.selectedStartDate, endDate: this.selectedEndDate, type: this.selectedTypeVacation};
     this.teams.teams[teamIndex].members[userIndex].vacations.push(newVacation);
+    this.setDefaultDelectedDate();
+  }
+
+  setDefaultDelectedDate() : void {
     this.selectedStartDate = new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd');
     this.selectedEndDate = new DatePipe('en-US').transform(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd');
   }
