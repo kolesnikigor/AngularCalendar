@@ -50,8 +50,6 @@
         </td>
         <td *ngFor="let day of allDays; index as j" [ngClass]='{calendarTable__dayOff: day.isDayOff === true }'>
           <div [ngClass]="{borderBottom: i === (team.members.length - 1)}">
-            <ng-container
-              *ngIf="checkVacationsDate(member.vacations, day.fullDate) ? addSumVacationByDay(member.name ,j) : false"></ng-container>
             <div class="calendarTable__vacations" [ngClass]="checkVacationsType(member.vacations)?'paid': 'unpaid'" *ngIf="checkVacationsDate(member.vacations, day.fullDate)">{{checkVacationsType(member.vacations)?'Pd': 'UPd'}}</div>
           </div>
         </td>

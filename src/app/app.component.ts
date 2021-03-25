@@ -2,6 +2,7 @@ import {Component, OnInit, OnChanges} from '@angular/core';
 import {IAllDays, ICalendar, ISelectedData} from './types/types';
 import {PutTeamsService} from './services/put-teams.service';
 import {DatePipe} from '@angular/common';
+import {getDaysOfCurrentMonth} from './utils/utils';
 
 
 @Component({
@@ -24,10 +25,10 @@ export class AppComponent implements OnInit {
   selectedTypeVacation = 'Paid';
 
   ngOnInit(): void {
-    this.getTeams();
+    this.setTeams();
   }
 
-  getTeams(): void {
+  setTeams(): void {
     this.putTeamsService.putTeams().subscribe(value => {
       this.teams = value;
       this.isLoading = !this.isLoading;
@@ -35,21 +36,7 @@ export class AppComponent implements OnInit {
   }
 
   getDaysOfActivePeriod(): IAllDays[] {
-    const year = this.date.getFullYear();
-    const month = this.date.getMonth();
-    const date = new Date(year, month, 1);
-    const days = [];
-    while (date.getMonth() === month) {
-      const item = new Date(date);
-      days.push({
-        dayName: item.toLocaleDateString('en-US', {weekday: 'short'}),
-        date: item.getDate(),
-        isDayOff: item.getDay() === 0 || item.getDay() === 6,
-        fullDate: item,
-      });
-      date.setDate(date.getDate() + 1);
-    }
-    return days;
+    return getDaysOfCurrentMonth(this.date);
   }
 
   modalToggle(): void {
@@ -60,7 +47,7 @@ export class AppComponent implements OnInit {
     this.date = newDate;
   }
 
-  getSelectedDataVacations(data: ISelectedData): void {
+  setSelectedDataVacations(data: ISelectedData): void {
     this.selectedStartDate = data.startDate;
     this.selectedEndDate = data.endDate;
     this.selectedTeam = data.team;
@@ -78,7 +65,7 @@ export class AppComponent implements OnInit {
     this.setDefaultDelectedDate();
   }
 
-  setDefaultDelectedDate() : void {
+  setDefaultDelectedDate(): void {
     this.selectedStartDate = new DatePipe('en-US').transform(new Date(), 'yyyy-MM-dd');
     this.selectedEndDate = new DatePipe('en-US').transform(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd');
   }

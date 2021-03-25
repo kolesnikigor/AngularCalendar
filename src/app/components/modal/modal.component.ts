@@ -8,7 +8,7 @@ import {ITeamMember, ITeam, IVacationsType, ISelectedData} from '../../types/typ
   styleUrls: ['./modal.component.scss']
 })
 
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, OnChanges {
   @Input() teams: Array<ITeam>;
   @Input() selectedStartDate: string;
   @Input() selectedEndDate: string;
@@ -36,7 +36,7 @@ export class ModalComponent implements OnInit {
     this.initVacationForm();
     this.handleFormValue();
   }
-  
+
   ngOnChanges(): void {
     this.udpateSelectedUser(this.selectedTeamIndex);
   }
@@ -66,12 +66,12 @@ export class ModalComponent implements OnInit {
   }
 
   udpateSelectedUser(currentTeamIndex: number): void {
-    console.log(this.teams[currentTeamIndex].members[0].name)
+    console.log(this.teams[currentTeamIndex].members[0].name);
     this.selectedUser = this.teams[currentTeamIndex].members[0].name;
   }
 
   countVacationDays(startDate: Date, endDate: Date): void {
-    const millisecondsPerDay: number = 86400000;
+    const millisecondsPerDay = 86400000;
     this.quantityVacationDays = (
       new Date(endDate).getTime() - new Date(startDate).getTime()
     ) / millisecondsPerDay + 1;
